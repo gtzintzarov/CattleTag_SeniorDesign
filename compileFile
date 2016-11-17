@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Compiling myOwnCode..."
+javac -cp .:ltkjava-1.0.0.6.jar:mercuryapi.jar asyncRead.java
+

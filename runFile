@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Running myOwnCode..."
+ls /dev/ | grep ttyACM
+java -cp .:ltkjava-1.0.0.6.jar:mercuryapi.jar asyncRead tmr:///dev/ttyACM0 --ant 2
