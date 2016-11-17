@@ -122,7 +122,7 @@ public class asyncRead
 
 	        //Thread.sleep(8000);
 
-	        r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(1, true)});
+	        r.gpoSet(new Reader.GpioPin(1,false));
 	        int counter = 0;
 	        while(true)
 	        {
