@@ -152,7 +152,8 @@ public class asyncRead
 			//r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        while(true)
 	        {
-	        	state = new Reader.GpioPin[] r.gpiGet();
+	        	state = new Reader.GpioPin[];
+	        	state = r.gpiGet();
 	        	if (state[0].high)
 	        		continue;
 	        	else
@@ -166,7 +167,7 @@ public class asyncRead
 	        
 
 	        //DEBUG BLOCK
-	        keepGoing = true; //DEBUG
+	        //keepGoing = true; //DEBUG
 	        //state = r.gpiGet();
 
 	        //END DEBUG BLOCK
