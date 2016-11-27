@@ -151,7 +151,7 @@ public class asyncRead
 	        
 
 	        //DEBUG BLOCK
-	        keepgoing = true; //DEBUG
+	        keepGoing = true; //DEBUG
 	        state = r.gpiGet();
 
 	        //END DEBUG BLOCK
