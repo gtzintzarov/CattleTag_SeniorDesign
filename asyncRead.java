@@ -134,7 +134,7 @@ public class asyncRead
             {
                 try
                 {
-                    boolean value = parseBool(1);
+                    boolean value = true;
                     r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, value)});
                 }
                 catch (IndexOutOfBoundsException iobe)
