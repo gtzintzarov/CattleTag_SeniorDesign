@@ -59,6 +59,7 @@ public class asyncRead
 			antennaList = parseAntennaList(argv, nextarg);
 			String readerURI = "tmr:///dev/ttyACM0";
 			r = Reader.create(readerURI);
+			boolean keepGoing = false;
 			// END INITIATE VARIABLES
 
 			// MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
@@ -99,7 +100,7 @@ public class asyncRead
 	        
 
 			// CREATE ASYNCHRONOUS READER
-			System.out.printf("\n\nCREATING ASYNCHRONOUS READER:\n");
+			System.out.printf("\n\nCreating Asynchronous Reader\n");
 			ReadExceptionListener exceptionListener = new TagReadExceptionReceiver();
 			r.addReadExceptionListener(exceptionListener);
 	        // Create and add tag listener
@@ -107,38 +108,13 @@ public class asyncRead
 	        r.addReadListener(rl);
 	        // END CREAT ASYNCHRONOUS READER
 
-	        boolean keepGoing = false;
-	        System.out.printf("\n\nTemperature1: %d\n",r.paramGet("/reader/radio/temperature"));
-	        	//state = r.gpiGet();
-	        	//System.out.printf("Pin %d: %s\n",state[0].id, state[0].high ? "High" : "Low");
-	        	//System.out.printf("George is Here\n");
-	        	
-	        	//System.out.printf("%s\n",r.gpiGet());
-	        	//Thread.sleep(3000);
-	        //}
+	        // CHECK INITIAL TEMP
+	        System.out.printf("\n\nInitial Temperature: %d\n\n",r.paramGet("/reader/radio/temperature"));
+	        // END CHECK INITIAL TEMP
 
-
-	        //End other work here
-
-	        //Thread.sleep(8000);
-
-
-
-			// BEGIN GPO SET: This chunk of code tries to set the light
-	        /*for(int iii=1; iii < 3; iii++)
-            {
-				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
-            
-            }*/
-
-            boolean[] lightArray = {true,false};
+            // BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
             user_setGPI(r, new boolean[] {true,false});
-			// END GPO SET
-
-
-
-			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
 	        while(true)
 	        {
 	        	state = r.gpiGet();
@@ -150,10 +126,11 @@ public class asyncRead
 	        		break;
 	        	}
 	        }
+	        user_setGPI(r, new boolean[] {false,true});
 	        // END GPI 1
 	        
 
-	        user_setGPI(r, new boolean[] {false,true});
+	        
 
 	        //DEBUG BLOCK
 	        //keepGoing = true; //DEBUG
@@ -161,16 +138,14 @@ public class asyncRead
 
 	        //END DEBUG BLOCK
 
+	        // BEGIN READ LOOP
 	        int counter = 0;
 	        while(keepGoing)
 	        {
 	        	r.startReading();
-	        	//System.out.printf("Reading...\n");
-	        	//System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
 	        	Thread.sleep(500);
-	        	//System.out.printf("Temperature3: %d\n",r.paramGet("/reader/radio/temperature"));
-	        	
 	        	r.stopReading();
+
 	        	System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
 	        	r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        	state = r.gpiGet();
@@ -187,23 +162,9 @@ public class asyncRead
 	        		pw.close();
 	        	}
 	        }
+	        // END READ LOOP
 
-			/*	
-		    tagReads = r.read(1000);
-		    for (TagReadData tr : tagReads)
-		    {
-		       	System.out.println("Tag : " + tr.toString());
-		    }
-			tagReads2 = r.read(10000);
-			for (TagReadData tr : tagReads2)
-			{
-				System.out.println("Tag : " + tr.toString());
-			}
-			System.out.println(r.paramGet(TMConstants.TMR_PARAM_RADIO_READPOWER));
-		    	// Shut down reader
-		    */
-			
-			//r.reboot();
+	        // TURN REEADER OFF
 			user_setGPI(r, new boolean[] {false,false});
 		    r.destroy();
 		} 
@@ -212,6 +173,11 @@ public class asyncRead
         }
 	}
 
+// ----------------- END PROGRAM ----------------------
+
+
+
+	
 
 	public static void user_setGPI(Reader r, boolean lightArray[])
 	{
