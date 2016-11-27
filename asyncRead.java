@@ -130,7 +130,7 @@ public class asyncRead
 				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
             
             }*/
-            r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
+            r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
             for(int iii=1; iii < 3; iii++)
             {
                 try
@@ -149,10 +149,10 @@ public class asyncRead
 
 
 			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
+			//r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        while(true)
 	        {
-	        	state = r.gpiGet();
+	        	state = new Reader.GpioPin[] r.gpiGet();
 	        	if (state[0].high)
 	        		continue;
 	        	else
