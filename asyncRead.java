@@ -133,7 +133,7 @@ public class asyncRead
 
 
             r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            boolean[] lightArray = {true,false};
+            new boolean[] lightArray = {true,false};
             for(int iii=1; iii < 3; iii++)
             {
                 try
@@ -167,7 +167,7 @@ public class asyncRead
 	        // END GPI 1
 	        
 	        r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            lightArray = {false,true};
+            new boolean[] lightArray = {false,true};
             for(int iii=1; iii < 3; iii++)
             {
                 try
@@ -231,7 +231,7 @@ public class asyncRead
 			
 			//r.reboot();
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            lightArray = {true,false};
+            new boolean[] lightArray = {true,false};
             for(int iii=1; iii < 3; iii++)
             {
                 try
