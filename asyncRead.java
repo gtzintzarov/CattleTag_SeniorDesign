@@ -162,7 +162,7 @@ public class asyncRead
         		//	System.out.printf("Pin %d: %s\n", gp.id, gp.high ? "High" : "Low");
 	        	//}
 	        	System.out.printf("%s\n",state[0].high ? "High" : "Low");
-	        	counter = counter + 1;
+	        	counter = counter + 1; //What this counter do?
 	        	if (!state[1].high)
 	        	{
 	        		keepGoing = false;
@@ -211,10 +211,10 @@ public class asyncRead
 
 	static class PrintListener implements ReadListener
 	{
-		public void tagRead(Reader r, TagReadData tr)
+		public void tagRead(Reader r, TagReadData tr) 
 		{
 			//System.out.println("Background read: " + tr.toString());
-			System.out.println("Background read: " + tr.toString());
+			System.out.println("Background reads: " + tr.toString());
 			sb.append(tr.epcString()); sb.append(','); sb.append(tr.getAntenna());sb.append(','); sb.append(tr.getReadCount()); sb.append(','); 
 			sb.append(tr.getTime()); sb.append('\n');
 		}
