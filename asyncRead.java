@@ -61,7 +61,7 @@ public class asyncRead
 			r = Reader.create(readerURI);
 			r.connect();
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
+			//r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
 		
 
 			if (Reader.Region.UNSPEC == (Reader.Region) r.paramGet(TMConstants.TMR_PARAM_REGION_ID))
@@ -124,13 +124,15 @@ public class asyncRead
 
 
 
-/* This chunk of code tries to set the light
+			// BEGIN GPO SET: This chunk of code tries to set the light
 	        for(int iii=1; iii < 3; iii++)
             {
 				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
             
             }
-			*/
+			// END GPO SET
+
+			
 
 			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
 	        while(true)
