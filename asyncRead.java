@@ -152,7 +152,7 @@ public class asyncRead
 			//r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        while(true)
 	        {
-	        	state = new Reader.GpioPin[];
+	        	state = new Reader.GpioPin;
 	        	state = r.gpiGet();
 	        	if (state[0].high)
 	        		continue;
