@@ -46,24 +46,24 @@ public class asyncRead
 			sb.append("READ TIME"); sb.append('\n');
 		try
 		{
-			
+			// INITIATE VARIABLES
 			Reader r = null;
 			int[] antennaList = null;
 			TagReadData[] tagReads;
 			TagReadData[] tagReads2;
 			int nextarg = 1;
 			boolean trace = false;
-			System.out.println("Jesse WOO Is here...");		
+			//System.out.println("Jesse WOO Is here...");		
 			Reader.GpioPin[] state;
 			antennaList = parseAntennaList(argv, nextarg);
-
 			String readerURI = "tmr:///dev/ttyACM0";
 			r = Reader.create(readerURI);
-			r.connect();
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
-		
+			// END INITIATE VARIABLES
 
+			// MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
+			r.connect();
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 			if (Reader.Region.UNSPEC == (Reader.Region) r.paramGet(TMConstants.TMR_PARAM_REGION_ID))
 		    	{
 		        	Reader.Region[] supportedRegions = (Reader.Region[]) r.paramGet(TMConstants.TMR_PARAM_REGION_SUPPORTEDREGIONS);
@@ -73,41 +73,37 @@ public class asyncRead
 		            		r.paramSet(TMConstants.TMR_PARAM_REGION_ID, supportedRegions[0]);
 		        	}
 		    	}
-			
-			System.out.println("before parse int");
+		    // END MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
+
+			// SELECT ANTENNA -- ADJUST OUTPUT POWER
 			String arg = "2";
 			antennaList[0] = Integer.parseInt(arg);
-			System.out.println("Matt Williams Is here...");
 			SimpleReadPlan plan = new SimpleReadPlan(antennaList, TagProtocol.GEN2, null, null, 1000);
 		    	r.paramSet(TMConstants.TMR_PARAM_READ_PLAN, plan);
 		    	// Read tags
 			int power = 3000;
 			r.paramSet(TMConstants.TMR_PARAM_RADIO_READPOWER, power);
-
-			//playing with GPIO
-			//int something = [1,2];
+			// END SELECT ANTENNA -- ADJUST OUTPUT POWER
 			
+
+			// TESTING GPI STATUS
 			state = r.gpiGet();
         	for (Reader.GpioPin gp : state)
         	{
         		System.out.printf("Pin %d: %s\n", gp.id, gp.high ? "High" : "Low");
 	        }
+	        // END TESTING GPI STATU
 	        
 
-			// NEW CODE JB and GT
+			// CREATE ASYNCHRONOUS READER
 			ReadExceptionListener exceptionListener = new TagReadExceptionReceiver();
 			r.addReadExceptionListener(exceptionListener);
 	        // Create and add tag listener
 	        ReadListener rl = new PrintListener();
 	        r.addReadListener(rl);
-	        // search for tags in the background
-	        //r.startReading();   
-	        //System.out.println("Do other work here");
+	        // END CREAT ASYNCHRONOUS READER
 
-	        //Other work here
 	        boolean keepGoing = false;
-	        //while(keepGoing)
-	        //{
 	        System.out.printf("Temperature1: %d\n",r.paramGet("/reader/radio/temperature"));
 	        	//state = r.gpiGet();
 	        	//System.out.printf("Pin %d: %s\n",state[0].id, state[0].high ? "High" : "Low");
@@ -143,9 +139,6 @@ public class asyncRead
                     System.out.println("GPO SET is just not working");
                 }
             }
-
-
-
 			// END GPO SET
 
 
