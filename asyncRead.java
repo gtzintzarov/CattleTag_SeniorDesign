@@ -47,6 +47,7 @@ public class asyncRead
 		try
 		{
 			// INITIATE VARIABLES
+			System.out.printf("INITIATING VARIABLES...\n");
 			Reader r = null;
 			int[] antennaList = null;
 			TagReadData[] tagReads;
@@ -61,6 +62,7 @@ public class asyncRead
 			// END INITIATE VARIABLES
 
 			// MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
+			System.out.printf("\n\nConnecting...\n");
 			r.connect();
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
@@ -76,6 +78,7 @@ public class asyncRead
 		    // END MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
 
 			// SELECT ANTENNA -- ADJUST OUTPUT POWER
+		    System.out.printf("\n\nSelecting Antenna & Setting Output Power\n");
 			String arg = "2";
 			antennaList[0] = Integer.parseInt(arg);
 			SimpleReadPlan plan = new SimpleReadPlan(antennaList, TagProtocol.GEN2, null, null, 1000);
@@ -87,6 +90,7 @@ public class asyncRead
 			
 
 			// TESTING GPI STATUS
+			System.out.printf("\n\nSTATUS of GPI pins:\n");
 			state = r.gpiGet();
         	for (Reader.GpioPin gp : state)
         	{
@@ -96,6 +100,7 @@ public class asyncRead
 	        
 
 			// CREATE ASYNCHRONOUS READER
+			System.out.printf("\n\nCREATING ASYNCHRONOUS READER:\n");
 			ReadExceptionListener exceptionListener = new TagReadExceptionReceiver();
 			r.addReadExceptionListener(exceptionListener);
 	        // Create and add tag listener
@@ -104,7 +109,7 @@ public class asyncRead
 	        // END CREAT ASYNCHRONOUS READER
 
 	        boolean keepGoing = false;
-	        System.out.printf("Temperature1: %d\n",r.paramGet("/reader/radio/temperature"));
+	        System.out.printf("\n\nTemperature1: %d\n",r.paramGet("/reader/radio/temperature"));
 	        	//state = r.gpiGet();
 	        	//System.out.printf("Pin %d: %s\n",state[0].id, state[0].high ? "High" : "Low");
 	        	//System.out.printf("George is Here\n");
