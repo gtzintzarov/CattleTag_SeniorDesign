@@ -149,6 +149,7 @@ public class asyncRead
 
 	        */
 	        int counter = 0;
+	        keepgoing = true; //DEBUG
 	        while(keepGoing)
 	        {
 	        	r.startReading();
