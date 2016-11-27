@@ -258,21 +258,27 @@ public class asyncRead
 
 	static void user_setGPI(Reader r, boolean[] lightArray)
 		{
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            lightArray = new boolean[] {false,false};
-            for(int iii=1; iii < 3; iii++)
-            {
-                try
-                {
-                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
-                }
-                catch (IndexOutOfBoundsException iobe)
-                {
-                    //System.out.println("Missing argument after args " + argv[nextarg]);
-                    //usage();
-                    System.out.println("GPO SET is just not working");
-                }
-            }
+			try
+			{
+				r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
+	            lightArray = new boolean[] {false,false};
+	            for(int iii=1; iii < 3; iii++)
+	            {
+	                try
+	                {
+	                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
+	                }
+	                catch (IndexOutOfBoundsException iobe)
+	                {
+	                    //System.out.println("Missing argument after args " + argv[nextarg]);
+	                    //usage();
+	                    System.out.println("GPO SET is just not working");
+	                }
+	            }
+	        }
+	        catch (Exception ex) {
+            	ex.printStackTrace();
+        	}
         }
 
 	static class TagReadExceptionReceiver implements ReadExceptionListener
