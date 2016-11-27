@@ -148,14 +148,13 @@ public class asyncRead
 		        	r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 		        	state = r.gpiGet();
 		        	System.out.printf("%s\n",state[0].high ? "High" : "Low");
-		        	counter = counter + 1; //What this counter do?
 		        	if (!state[1].high)
 		        	{
 		        		keepGoing = false;
 		        		pw.write(sb.toString());
 		        		pw.close();
 		        		System.out.printf("DONE: RUN #%d\n",counter);
-		        		System.out.printf("TO TURN OFF HOLD BUTTON 1");
+		        		System.out.printf("TO TURN OFF HOLD BUTTON 1\n");
 		        	}
 		        }
 		        user_setGPI(r, new boolean[] {false,false});
@@ -177,6 +176,15 @@ public class asyncRead
 	        		user_setGPI(r, new boolean[] {true,true});
 	        		Thread.sleep(200);
 	        		user_setGPI(r, new boolean[] {false,false});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {true,true});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {false,false});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {true,true});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {false,false});
+	        		
 	        	}
 
 	    	}
