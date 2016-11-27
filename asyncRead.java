@@ -168,6 +168,9 @@ public class asyncRead
 	        }
 	        // END GPI 1
 	        
+
+	        user_setGPI(r, new boolean[] {false,true});
+	        /* TO BE REMOVED
 	        r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
             lightArray = new boolean[] {false,true};
             for(int iii=1; iii < 3; iii++)
@@ -182,7 +185,7 @@ public class asyncRead
                     //usage();
                     System.out.println("GPO SET is just not working");
                 }
-            }
+            } */
 
 	        //DEBUG BLOCK
 	        //keepGoing = true; //DEBUG
@@ -262,7 +265,6 @@ public class asyncRead
 		{
 			System.out.println("In my function1\n");
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            //lightArray = new boolean[] {false,false};
             for(int iii=1; iii < 3; iii++)
             {
                 try
