@@ -118,7 +118,7 @@ public class asyncRead
 			boolean masterKeepGoing = true;
 			while(masterKeepGoing)
 			{
-
+				System.out.printf("BEGIN RUN #%d\n",counter);
 	            // BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
 	            user_setGPI(r, new boolean[] {true,false});
 				r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
