@@ -125,14 +125,31 @@ public class asyncRead
 
 
 			// BEGIN GPO SET: This chunk of code tries to set the light
-	        for(int iii=1; iii < 3; iii++)
+	        /*for(int iii=1; iii < 3; iii++)
             {
 				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
             
+            }*/
+            for(int iii=1; iii < 3; iii++)
+            {
+                try
+                {
+                    boolean value = parseBool(1);
+                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, value)});
+                }
+                catch (IndexOutOfBoundsException iobe)
+                {
+                    //System.out.println("Missing argument after args " + argv[nextarg]);
+                    //usage();
+                    System.out.println("GPO SET is just not working");
+                }
             }
+
+
+
 			// END GPO SET
 
-			
+
 
 			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
 	        while(true)
