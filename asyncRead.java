@@ -132,9 +132,7 @@ public class asyncRead
             }
 			*/
 
-/* This chunk of code checks for the first gpi pin to be pressed
-
-	        
+			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
 	        while(true)
 	        {
 	        	state = r.gpiGet();
@@ -146,8 +144,8 @@ public class asyncRead
 	        		break;
 	        	}
 	        }
-
-	        */
+	        // END GPI 1
+	        
 	        
 
 	        //DEBUG BLOCK
