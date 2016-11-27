@@ -256,7 +256,7 @@ public class asyncRead
 	}
 
 
-	static void user_setGPI(Reader r, boolean[] lightArray)
+	public static void user_setGPI(Reader r, boolean[] lightArray)
 		{
 			try
 			{
