@@ -124,7 +124,7 @@ public class asyncRead
 
 
 
-/*
+/* This chunk of code tries to set the light
 	        for(int iii=1; iii < 3; iii++)
             {
 				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
@@ -132,7 +132,7 @@ public class asyncRead
             }
 			*/
 
-
+/* This chunk of code checks for the first gpi pin to be pressed
 
 	        int counter = 0;
 	        while(true)
@@ -146,6 +146,8 @@ public class asyncRead
 	        		break;
 	        	}
 	        }
+
+	        */
 	        while(keepGoing)
 	        {
 	        	r.startReading();
