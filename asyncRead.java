@@ -199,6 +199,7 @@ public class asyncRead
 	        	
 	        	r.stopReading();
 	        	System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
+	        	r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        	state = r.gpiGet();
         		//for (Reader.GpioPin gp : state)
         		//{
