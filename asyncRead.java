@@ -131,11 +131,12 @@ public class asyncRead
             
             }*/
             r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
+            boolean[] lightArray = {true,false};
             for(int iii=1; iii < 3; iii++)
             {
                 try
                 {
-                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
+                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
                 }
                 catch (IndexOutOfBoundsException iobe)
                 {
@@ -149,10 +150,9 @@ public class asyncRead
 
 
 			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
-			//r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        while(true)
 	        {
-	        	state = new Reader.GpioPin;
 	        	state = r.gpiGet();
 	        	if (state[0].high)
 	        		continue;
