@@ -132,23 +132,7 @@ public class asyncRead
             }*/
 
             boolean[] lightArray = {true,false};
-            user_setGPI(r, lightArray);
-            /*
-            r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            boolean[] lightArray = {true,false};
-            for(int iii=1; iii < 3; iii++)
-            {
-                try
-                {
-                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
-                }
-                catch (IndexOutOfBoundsException iobe)
-                {
-                    //System.out.println("Missing argument after args " + argv[nextarg]);
-                    //usage();
-                    System.out.println("GPO SET is just not working");
-                }
-            } */
+            user_setGPI(r, new boolean[] {true,false});
 			// END GPO SET
 
 
@@ -170,22 +154,6 @@ public class asyncRead
 	        
 
 	        user_setGPI(r, new boolean[] {false,true});
-	        /* TO BE REMOVED
-	        r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            lightArray = new boolean[] {false,true};
-            for(int iii=1; iii < 3; iii++)
-            {
-                try
-                {
-                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
-                }
-                catch (IndexOutOfBoundsException iobe)
-                {
-                    //System.out.println("Missing argument after args " + argv[nextarg]);
-                    //usage();
-                    System.out.println("GPO SET is just not working");
-                }
-            } */
 
 	        //DEBUG BLOCK
 	        //keepGoing = true; //DEBUG
@@ -199,7 +167,7 @@ public class asyncRead
 	        	r.startReading();
 	        	//System.out.printf("Reading...\n");
 	        	//System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
-	        	Thread.sleep(1000);
+	        	Thread.sleep(500);
 	        	//System.out.printf("Temperature3: %d\n",r.paramGet("/reader/radio/temperature"));
 	        	
 	        	r.stopReading();
@@ -236,21 +204,7 @@ public class asyncRead
 		    */
 			
 			//r.reboot();
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-            lightArray = new boolean[] {false,false};
-            for(int iii=1; iii < 3; iii++)
-            {
-                try
-                {
-                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
-                }
-                catch (IndexOutOfBoundsException iobe)
-                {
-                    //System.out.println("Missing argument after args " + argv[nextarg]);
-                    //usage();
-                    System.out.println("GPO SET is just not working");
-                }
-            }
+			user_setGPI(r, new boolean[] {false,false});
 		    r.destroy();
 		} 
 		catch (Exception ex) {
@@ -263,13 +217,11 @@ public class asyncRead
 	{
 		try
 		{
-			System.out.println("In my function1\n");
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
             for(int iii=1; iii < 3; iii++)
             {
                 try
                 {
-                	System.out.println("In my function2");
                     r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
                 }
                 catch (IndexOutOfBoundsException iobe)
