@@ -148,8 +148,15 @@ public class asyncRead
 	        }
 
 	        */
-	        int counter = 0;
+	        
+
+	        //DEBUG BLOCK
 	        keepgoing = true; //DEBUG
+	        state = r.gpiGet();
+
+	        //END DEBUG BLOCK
+
+	        int counter = 0;
 	        while(keepGoing)
 	        {
 	        	r.startReading();
