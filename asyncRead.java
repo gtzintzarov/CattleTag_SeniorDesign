@@ -256,32 +256,32 @@ public class asyncRead
 	}
 
 
-	public void user_setGPI(Reader r, boolean[] lightArray)
+	public static void user_setGPI(Reader r, boolean lightArray[])
+	{
+		try
 		{
-			try
-			{
-				System.out.println("In my function1\n");
-				r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
-	            lightArray = new boolean[] {false,false};
-	            for(int iii=1; iii < 3; iii++)
-	            {
-	                try
-	                {
-	                	System.out.println("In my function2");
-	                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
-	                }
-	                catch (IndexOutOfBoundsException iobe)
-	                {
-	                    //System.out.println("Missing argument after args " + argv[nextarg]);
-	                    //usage();
-	                    System.out.println("GPO SET is just not working");
-	                }
-	            }
-	        }
-	        catch (Exception ex) {
-            	ex.printStackTrace();
-        	}
+			System.out.println("In my function1\n");
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
+            lightArray = new boolean[] {false,false};
+            for(int iii=1; iii < 3; iii++)
+            {
+                try
+                {
+                	System.out.println("In my function2");
+                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
+                }
+                catch (IndexOutOfBoundsException iobe)
+                {
+                    //System.out.println("Missing argument after args " + argv[nextarg]);
+                    //usage();
+                    System.out.println("GPO SET is just not working");
+                }
+            }
         }
+        catch (Exception ex) {
+        	ex.printStackTrace();
+    	}
+    }
 
 	static class TagReadExceptionReceiver implements ReadExceptionListener
 	{
