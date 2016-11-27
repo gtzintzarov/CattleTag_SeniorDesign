@@ -260,6 +260,7 @@ public class asyncRead
 		{
 			try
 			{
+				System.out.println("In my function");
 				r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
 	            lightArray = new boolean[] {false,false};
 	            for(int iii=1; iii < 3; iii++)
