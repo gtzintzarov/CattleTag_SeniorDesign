@@ -131,7 +131,9 @@ public class asyncRead
             
             }*/
 
-
+            boolean[] lightArray = {true,false};
+            user_setGPI(r, lightArray);
+            /*
             r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
             boolean[] lightArray = {true,false};
             for(int iii=1; iii < 3; iii++)
@@ -146,7 +148,7 @@ public class asyncRead
                     //usage();
                     System.out.println("GPO SET is just not working");
                 }
-            }
+            } */
 			// END GPO SET
 
 
@@ -253,6 +255,26 @@ public class asyncRead
         }
 	}
 
+
+	static void user_setGPI(Reader r, boolean[] lightArray)
+		{
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
+            lightArray = new boolean[] {false,false};
+            for(int iii=1; iii < 3; iii++)
+            {
+                try
+                {
+                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
+                }
+                catch (IndexOutOfBoundsException iobe)
+                {
+                    //System.out.println("Missing argument after args " + argv[nextarg]);
+                    //usage();
+                    System.out.println("GPO SET is just not working");
+                }
+            }
+        }
+
 	static class TagReadExceptionReceiver implements ReadExceptionListener
 	{
 		String strDateFormat = "M/d/yyyy h:m:s a";
@@ -267,6 +289,7 @@ public class asyncRead
 			}
 		}
 	}
+
 
 	static class PrintListener implements ReadListener
 	{
