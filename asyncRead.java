@@ -134,7 +134,7 @@ public class asyncRead
 
 /* This chunk of code checks for the first gpi pin to be pressed
 
-	        int counter = 0;
+	        
 	        while(true)
 	        {
 	        	state = r.gpiGet();
@@ -148,6 +148,7 @@ public class asyncRead
 	        }
 
 	        */
+	        int counter = 0;
 	        while(keepGoing)
 	        {
 	        	r.startReading();
