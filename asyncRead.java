@@ -260,13 +260,14 @@ public class asyncRead
 		{
 			try
 			{
-				System.out.println("In my function");
+				System.out.println("In my function1\n");
 				r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} ); // I think the move is to put this before everything
 	            lightArray = new boolean[] {false,false};
 	            for(int iii=1; iii < 3; iii++)
 	            {
 	                try
 	                {
+	                	System.out.println("In my function2");
 	                    r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, lightArray[iii-1])});
 	                }
 	                catch (IndexOutOfBoundsException iobe)
