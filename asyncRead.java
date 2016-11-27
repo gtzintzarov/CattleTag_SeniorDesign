@@ -61,7 +61,7 @@ public class asyncRead
 			r = Reader.create(readerURI);
 			r.connect();
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
+			//r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
 		
 
 			if (Reader.Region.UNSPEC == (Reader.Region) r.paramGet(TMConstants.TMR_PARAM_REGION_ID))
@@ -152,7 +152,7 @@ public class asyncRead
 
 	        //DEBUG BLOCK
 	        keepGoing = true; //DEBUG
-	        state = r.gpiGet();
+	        //state = r.gpiGet();
 
 	        //END DEBUG BLOCK
 
