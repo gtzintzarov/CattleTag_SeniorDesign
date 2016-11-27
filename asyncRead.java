@@ -64,7 +64,6 @@ public class asyncRead
 			// MAKE CONNECTION -- SETUP PARAMS -- SELECT REGION OF OPERATION
 			System.out.printf("\n\nConnecting...\n");
 			r.connect();
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
 			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 			if (Reader.Region.UNSPEC == (Reader.Region) r.paramGet(TMConstants.TMR_PARAM_REGION_ID))
 		    	{
@@ -131,6 +130,7 @@ public class asyncRead
 				r.gpoSet(new Reader.GpioPin[]{new Reader.GpioPin(iii, true)});
             
             }*/
+            r.paramSet(TMConstants.TMR_PARAM_GPIO_OUTPUTLIST, new int[] {1,2} );
             for(int iii=1; iii < 3; iii++)
             {
                 try
@@ -149,6 +149,7 @@ public class asyncRead
 
 
 			// BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
+			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
 	        while(true)
 	        {
 	        	state = r.gpiGet();
