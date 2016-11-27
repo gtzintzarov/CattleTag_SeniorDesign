@@ -112,60 +112,76 @@ public class asyncRead
 	        System.out.printf("\n\nInitial Temperature: %d\n\n",r.paramGet("/reader/radio/temperature"));
 	        // END CHECK INITIAL TEMP
 
-            // BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
-            user_setGPI(r, new boolean[] {true,false});
-			r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
-	        while(true)
-	        {
-	        	state = r.gpiGet();
-	        	if (state[0].high)
-	        		continue;
-	        	else
+
+
+			int counter = 1; // This counter should be incorporated in the *.csv file
+			boolean masterKeepGoing = true;
+			while(masterKeepGoing)
+			{
+
+	            // BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
+	            user_setGPI(r, new boolean[] {true,false});
+				r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
+		        while(true)
+		        {
+		        	state = r.gpiGet();
+		        	if (state[0].high)
+		        		continue;
+		        	else
+		        	{
+		        		keepGoing = true;
+		        		break;
+		        	}
+		        }
+		        user_setGPI(r, new boolean[] {false,true});
+		        // END GPI 1
+		        
+
+		        // BEGIN READ LOOP
+		        while(keepGoing)
+		        {
+		        	r.startReading();
+		        	Thread.sleep(500);
+		        	r.stopReading();
+
+		        	System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
+		        	r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
+		        	state = r.gpiGet();
+		        	System.out.printf("%s\n",state[0].high ? "High" : "Low");
+		        	counter = counter + 1; //What this counter do?
+		        	if (!state[1].high)
+		        	{
+		        		keepGoing = false;
+		        		pw.write(sb.toString());
+		        		pw.close();
+		        		System.out.printf("DONE: RUN #%d\n",counter);
+		        		System.out.printf("TO TURN OFF HOLD BUTTON 1");
+		        	}
+		        }
+		        user_setGPI(r, new boolean[] {false,false});
+		        counter++;
+		        // END READ LOOP
+
+		        // CHECK BOTH BUTTONS TO SEE IF EXIT
+		        Thread.sleep(5000);
+		        r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
+		        state = r.gpiGet();
+		        if (!state[0].high)
 	        	{
-	        		keepGoing = true;
-	        		break;
+	        		masterKeepGoing = false;
+	        		System.out.printf("TURNING OFF!!!!! BYE BYE\n");
+	        		user_setGPI(r, new boolean[] {true,true});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {false,false});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {true,true});
+	        		Thread.sleep(200);
+	        		user_setGPI(r, new boolean[] {false,false});
 	        	}
-	        }
-	        user_setGPI(r, new boolean[] {false,true});
-	        // END GPI 1
-	        
 
-	        
-
-	        //DEBUG BLOCK
-	        //keepGoing = true; //DEBUG
-	        //state = r.gpiGet();
-
-	        //END DEBUG BLOCK
-
-	        // BEGIN READ LOOP
-	        int counter = 0;
-	        while(keepGoing)
-	        {
-	        	r.startReading();
-	        	Thread.sleep(500);
-	        	r.stopReading();
-
-	        	System.out.printf("Temperature2: %d\n",r.paramGet("/reader/radio/temperature"));
-	        	r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} );
-	        	state = r.gpiGet();
-        		//for (Reader.GpioPin gp : state)
-        		//{
-        		//	System.out.printf("Pin %d: %s\n", gp.id, gp.high ? "High" : "Low");
-	        	//}
-	        	System.out.printf("%s\n",state[0].high ? "High" : "Low");
-	        	counter = counter + 1; //What this counter do?
-	        	if (!state[1].high)
-	        	{
-	        		keepGoing = false;
-	        		pw.write(sb.toString());
-	        		pw.close();
-	        	}
-	        }
-	        // END READ LOOP
+	    	}
 
 	        // TURN REEADER OFF
-			user_setGPI(r, new boolean[] {false,false});
 		    r.destroy();
 		} 
 		catch (Exception ex) {
@@ -177,7 +193,7 @@ public class asyncRead
 
 
 
-	
+
 
 	public static void user_setGPI(Reader r, boolean lightArray[])
 	{
