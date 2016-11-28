@@ -143,11 +143,7 @@ public class asyncRead
 		        user_setGPI(r, new boolean[] {false,true});
 		        // END GPI 1
 		        
-
-		        // BEGIN READ LOOP
-		        while(keepGoing)
-		        {
-                            //THIS PART INITIALIZE OUR NEW CSV FILE - IT INCLUDES THE STARTING TIME
+			    //THIS PART INITIALIZE OUR NEW CSV FILE - IT INCLUDES THE STARTING TIME
                             //THE HEADERS, THE STOPPING TIME AND THE TOTAL RUNNING TIME OF THE SESSION
                                 sb = new StringBuilder();
                                 f = new File("cows_" + counter + ".csv");
@@ -158,8 +154,12 @@ public class asyncRead
                                 sb.append("Reading Starting Time"); sb.append(','); sb.append(timeStamp);  sb.append('\n');
                                 sb.append("EPC"); sb.append(','); sb.append("ANTENNA");sb.append(','); sb.append("READ COUNT"); sb.append(','); 
 	                        sb.append("READ TIME"); sb.append('\n');
-                                
-                                
+                            
+
+		        // BEGIN READ LOOP
+		        while(keepGoing)
+		        {
+                   
 		        	r.startReading();
 		        	Thread.sleep(500);
 		        	r.stopReading();
