@@ -18,7 +18,9 @@ import java.util.Calendar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -36,14 +38,17 @@ public class asyncRead
 	
 	static PrintWriter pw;
 	static StringBuilder sb;
-    
+        static File f;
+        static String timeStamp;
+        static String timeStamp2;
+        static SimpleDateFormat format;
 	
 	public static void main(String argv[]) throws FileNotFoundException
     	{
-    		sb = new StringBuilder();
-            pw = new PrintWriter(new File("cows.csv"));
-    		sb.append("EPC"); sb.append(','); sb.append("ANTENNA");sb.append(','); sb.append("READ COUNT"); sb.append(','); 
-			sb.append("READ TIME"); sb.append('\n');
+                int counter = 1;
+                Date d1, d2;
+                long diffMinutes; 
+    	 
 		try
 		{
 			// INITIATE VARIABLES
@@ -114,14 +119,16 @@ public class asyncRead
 
 
 
-			int counter = 1; // This counter should be incorporated in the *.csv file
+			// int counter = 1; // This counter should be incorporated in the *.csv file
 			boolean masterKeepGoing = true;
 			while(masterKeepGoing)
 			{
 				System.out.printf("BEGIN RUN #%d\n",counter);
+                                
+                                
 	            // BEGIN GPI 1: This chunk of code checks for the first gpi pin to be pressed
-	            user_setGPI(r, new boolean[] {true,false});
-				r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
+	                  user_setGPI(r, new boolean[] {true,false});
+		          r.paramSet(TMConstants.TMR_PARAM_GPIO_INPUTLIST, new int[] {1,2} ); // this just has to be written before any gpi reads
 		        while(true)
 		        {
 		        	state = r.gpiGet();
@@ -140,6 +147,19 @@ public class asyncRead
 		        // BEGIN READ LOOP
 		        while(keepGoing)
 		        {
+                            //THIS PART INITIALIZE OUR NEW CSV FILE - IT INCLUDES THE STARTING TIME
+                            //THE HEADERS, THE STOPPING TIME AND THE TOTAL RUNNING TIME OF THE SESSION
+                                sb = new StringBuilder();
+                                f = new File("cows_" + counter + ".csv");
+                                pw = new PrintWriter(f);
+                                timeStamp = new SimpleDateFormat("MM.dd.yyyy " + "hh.mm.ss.a").format(new Date());
+                                timeStamp2 = new SimpleDateFormat("dd.MM.yyyy" + "HH.mm.ss").format(new Date());
+                                d1 = format.parse(timeStamp2);
+                                sb.append("Reading Starting Time"); sb.append(','); sb.append(timeStamp);  sb.append('\n');
+                                sb.append("EPC"); sb.append(','); sb.append("ANTENNA");sb.append(','); sb.append("READ COUNT"); sb.append(','); 
+	                        sb.append("READ TIME"); sb.append('\n');
+                                
+                                
 		        	r.startReading();
 		        	Thread.sleep(500);
 		        	r.stopReading();
@@ -151,6 +171,14 @@ public class asyncRead
 		        	if (!state[1].high)
 		        	{
 		        		keepGoing = false;
+                                        // FINALIZE THE CSV FILE
+                                        timeStamp = new SimpleDateFormat("MM.dd.yyyy " + "hh.mm.ss.a").format(new Date());
+                                        timeStamp2 = new SimpleDateFormat("dd.MM.yyyy" + "HH.mm.ss").format(new Date());
+                                        d2 = format.parse(timeStamp2);
+                                        sb.append("Reading Stopping Time"); sb.append(','); sb.append(timeStamp);  sb.append('\n');
+                                        diffMinutes = (d2.getTime() - d1.getTime()) / (60 * 1000) % 60; 
+                                        sb.append("Session Time: " + String.valueOf(diffMinutes) + " minutes");
+                                        // WRITE DATA TO CSV FILE AND FLUSH THE STREAM
 		        		pw.write(sb.toString());
 		        		pw.close();
 		        		System.out.printf("DONE: RUN #%d\n",counter);
@@ -283,3 +311,4 @@ public class asyncRead
         	return antennaList;
 	}
 }
+
