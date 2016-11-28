@@ -48,7 +48,8 @@ public class asyncRead
                 int counter = 1;
                 Date d1, d2;
                 long diffMinutes; 
-    	 
+    	        format = new SimpleDateFormat("dd.MM.yyyy" + "HH.mm.ss"); 
+		
 		try
 		{
 			// INITIATE VARIABLES
