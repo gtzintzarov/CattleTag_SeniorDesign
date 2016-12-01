@@ -148,7 +148,11 @@ public class asyncRead
 			    //THIS PART INITIALIZE OUR NEW CSV FILE - IT INCLUDES THE STARTING TIME
                             //THE HEADERS, THE STOPPING TIME AND THE TOTAL RUNNING TIME OF THE SESSION
                                 sb = new StringBuilder();
+<<<<<<< HEAD
                                 f = new File("/mnt/usb/cows_" + counter + ".csv");
+=======
+                                f = new File("cows_" + counter + ".csv");
+>>>>>>> b1f2fca948e9d67073011744733bd4b060b8c5f4
                                 pw = new PrintWriter(f);
                                 timeStamp = new SimpleDateFormat("MM.dd.yyyy " + "hh.mm.ss.a").format(new Date());
                                 timeStamp2 = new SimpleDateFormat("dd.MM.yyyy" + "HH.mm.ss").format(new Date());
